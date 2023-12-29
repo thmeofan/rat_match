@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 
-class LinePainter extends CustomPainter {
-  final List<Offset> buttonPositions;
+import '../../consts/app_colors.dart';
 
-  LinePainter(this.buttonPositions);
+class LinePainter extends CustomPainter {
+  final List<Offset> points;
+
+  final double lineWidth;
+
+  LinePainter({required this.points, this.lineWidth = 4});
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (buttonPositions.isEmpty) return;
-
     final paint = Paint()
-      ..color = Colors.white
-      ..strokeWidth = 2
-      ..style = PaintingStyle.stroke;
+      ..color = AppColors.brownColor.withOpacity(0.8)
+      ..strokeCap = StrokeCap.round
+      ..strokeWidth = lineWidth;
 
-    final path = Path();
-    path.moveTo(buttonPositions[0].dx, buttonPositions[0].dy);
-    for (int i = 1; i < buttonPositions.length; i++) {
-      path.lineTo(buttonPositions[i].dx, buttonPositions[i].dy);
+    for (int i = 0; i < points.length - 1; i++) {
+      canvas.drawLine(points[i], points[i + 1], paint);
     }
-
-    canvas.drawPath(path, paint);
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
+  }
 }

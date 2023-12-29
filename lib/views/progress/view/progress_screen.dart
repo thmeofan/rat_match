@@ -6,6 +6,7 @@ import '../../app/widgets/navigation_button.dart';
 import '../../app/widgets/score_widget.dart';
 import '../../app/widgets/start_button.dart';
 import '../widget/level_button.dart';
+import '../widget/line_painter.dart';
 
 class ProgressScreen extends StatefulWidget {
   const ProgressScreen({super.key});
@@ -141,6 +142,14 @@ class _ProgressScreenState extends State<ProgressScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
+    final List<Offset> levelButtonPositions = [
+      Offset(screenWidth * 0.15, screenHeight * 0.6),
+      Offset(screenWidth * 0.325, screenHeight * 0.2),
+      Offset(screenWidth * 0.5, screenHeight * 0.6),
+      Offset(screenWidth * 0.65, screenHeight * 0.2),
+      Offset(screenWidth * 0.85, screenHeight * 0.6),
+    ];
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -149,6 +158,10 @@ class _ProgressScreenState extends State<ProgressScreen> {
           fit: BoxFit.cover,
         )),
         child: Stack(children: [
+          CustomPaint(
+            size: Size(screenWidth, screenHeight),
+            painter: LinePainter(points: levelButtonPositions),
+          ),
           Padding(
             padding: EdgeInsets.only(
               top: screenHeight * 0.02,
@@ -165,7 +178,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
                     children: [
                       SizedBox(
                           height: screenWidth * 0.15,
-                          width: screenWidth * 0.15),
+                          width: screenWidth * 0.14),
                       LevelButton(
                         assetName: 'assets/images/lvl2.svg',
                         isSelected: selectedLevelIndex == 1,
@@ -178,7 +191,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
                       ),
                       SizedBox(
                           height: screenWidth * 0.15,
-                          width: screenWidth * 0.15),
+                          width: screenWidth * 0.18),
                       LevelButton(
                         assetName: 'assets/images/lvl4.svg',
                         isSelected: selectedLevelIndex == 3,
@@ -206,7 +219,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
                       },
                     ),
                     SizedBox(
-                        height: screenWidth * 0.15, width: screenWidth * 0.2),
+                        height: screenWidth * 0.15, width: screenWidth * 0.15),
                     LevelButton(
                       assetName: 'assets/images/lvl3.svg',
                       isSelected: selectedLevelIndex == 2,
