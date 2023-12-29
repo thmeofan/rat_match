@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rat_match/data/repository/score_repo.dart';
 import 'package:rat_match/views/app/widgets/navigation_button.dart';
 import 'package:rat_match/views/levels/widget/game_card_widget.dart';
 
@@ -54,64 +55,81 @@ class _FirstLevelScreenState extends State<FirstLevelScreen> {
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-          image: AssetImage('assets/images/background.png'),
+          image: const AssetImage('assets/images/background.png'),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
             Colors.transparent.withOpacity(1),
             BlendMode.dstATop,
           ),
         )),
-        child: Padding(
-          padding: EdgeInsets.all(size.height * 0.05),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              NavigationButton(
-                assetName: 'assets/images/home.png',
-                onTap: () {
-                  Navigator.of(context).pushNamed(
-                    AppRoutes.home,
-                  );
-                },
-                buttonWidth: size.width * 0.08,
-              ),
-              NavigationButton(
-                assetName: 'assets/images/settings.png',
-                onTap: () {
-                  Navigator.of(context).pushNamed(
-                    AppRoutes.settingsScreen,
-                  );
-                },
-                buttonWidth: size.width * 0.08,
-              ),
-              Center(
-                child: Container(
-                  height: size.height * 0.8,
-                  width: size.width * 0.5,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                    image: AssetImage('assets/images/banner.png'),
-                    fit: BoxFit.contain,
-                  )),
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 3,
+        child: Stack(children: [
+          Padding(
+            padding: EdgeInsets.all(size.height * 0.05),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Container(
+                    height: size.height * 0.9,
+                    width: size.width * 0.6,
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(
+                      image: AssetImage('assets/images/banner.png'),
+                      fit: BoxFit.contain,
+                    )),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: size.height * 0.35,
+                        vertical: size.height * 0.15,
+                      ),
+                      child: GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 1,
+                        ),
+                        itemCount: _gameIcons.length,
+                        itemBuilder: (context, index) {
+                          return CustomCard(
+                            iconName: _gameIcons[index],
+                            isFlipped: _cardFlipped[index],
+                            onTap: () => _onCardClick(index),
+                          );
+                        },
+                      ),
                     ),
-                    itemCount: _gameIcons.length,
-                    itemBuilder: (context, index) {
-                      return CustomCard(
-                        iconName: _gameIcons[index],
-                        isFlipped: _cardFlipped[index],
-                        onTap: () => _onCardClick(index),
-                      );
-                    },
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+          Positioned(
+            top: size.height * 0.1,
+            left: size.width * 0.05,
+            child: Row(
+              children: [
+                NavigationButton(
+                  assetName: 'assets/images/home.png',
+                  onTap: () {
+                    Navigator.of(context).pushNamed(
+                      AppRoutes.home,
+                    );
+                  },
+                  buttonWidth: size.width * 0.08,
+                ),
+                NavigationButton(
+                  assetName: 'assets/images/settings.png',
+                  onTap: () {
+                    Navigator.of(context).pushNamed(
+                      AppRoutes.settingsScreen,
+                    );
+                  },
+                  buttonWidth: size.width * 0.08,
+                ),
+              ],
+            ),
+          ),
+        ]),
       ),
     );
   }
@@ -127,7 +145,7 @@ class _FirstLevelScreenState extends State<FirstLevelScreen> {
       _previousIndex = index;
     } else {
       if (_gameIcons[index] == _gameIcons[_previousIndex]) {
-        _checkForCompletion(); // Check if the game is complete after a successful match.
+        _checkForCompletion();
         _previousIndex = -1;
       } else {
         _flipAllowed = false;
@@ -144,12 +162,11 @@ class _FirstLevelScreenState extends State<FirstLevelScreen> {
   }
 
   void _checkForCompletion() {
-    // If all cards are flipped, then the game is complete
     if (_cardFlipped.every((bool status) => status)) {
-      // Navigate to the ResultScreen
       Navigator.of(context).pushNamed(
         AppRoutes.result,
       );
+      score += 100;
     }
   }
 }

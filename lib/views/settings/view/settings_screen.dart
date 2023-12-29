@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rat_match/views/app/widgets/navigation_button.dart';
+import 'package:rat_match/views/consts/app_text_style/settings_style.dart';
 
 import '../../../util/app_routes.dart';
+import '../../app/view/my_in_app_web_view.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -13,19 +15,17 @@ class SettingsScreen extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
-          // Background image
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/background.png'),
                 fit: BoxFit.cover,
               ),
             ),
           ),
-          // NavigationButton positioned at the top left corner
           Positioned(
             top: size.height * 0.1,
-            left: size.width * 0.05,
+            left: size.width * 0.025,
             child: NavigationButton(
               assetName: 'assets/images/home.png',
               onTap: () {
@@ -36,7 +36,6 @@ class SettingsScreen extends StatelessWidget {
               buttonWidth: size.width * 0.08,
             ),
           ),
-          // Centered banner with chipmunk image aligned at the bottom
           Center(
             child: Stack(
               alignment: Alignment.center,
@@ -44,50 +43,108 @@ class SettingsScreen extends StatelessWidget {
                 Container(
                   height: size.height * 0.8,
                   width: size.width * 0.6,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/banner.png'),
                       fit: BoxFit.contain,
                     ),
                   ),
                 ),
-                // Positioned chipmunk image on the border of the banner
                 Positioned(
-                  bottom: -(size.height * 0.1), // Half the image height
-                  right: -(size.width * 0.08), // Half the image width
+                  bottom: -(size.height * 0.1),
+                  right: -(size.width * 0.08),
                   child: Image.asset(
                     'assets/images/chipmunk.png',
                     height: size.height * 0.9,
-                    fit: BoxFit.contain, // Adjust the size accordingly
+                    fit: BoxFit.contain,
                   ),
                 ),
-                // Your buttons and other content inside the banner
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    TextButton(
-                      child: Text('PRIVACY POLICY'),
-                      onPressed: () {
-                        // Implement navigation logic
+                    ShaderMask(
+                      shaderCallback: (Rect bounds) {
+                        return const LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: <Color>[
+                            Colors.white,
+                            Color(0xFFEC9851),
+                          ],
+                        ).createShader(bounds);
                       },
-                      // style: SettingsTextStyle.tile,
+                      child: TextButton(
+                        child: const Text(
+                          'PRIVACY POLICY',
+                          style: SettingsTextStyle.heavyTextStyle,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MyInAppWebView(
+                                  url: 'https://google.com/'),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                     SizedBox(height: size.height * 0.02),
-                    TextButton(
-                      child: Text('TERMS OF USE'),
-                      onPressed: () {
-                        // Implement navigation logic
+                    ShaderMask(
+                      shaderCallback: (Rect bounds) {
+                        return const LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: <Color>[
+                            Colors.white,
+                            Color(0xFFEC9851),
+                          ],
+                        ).createShader(bounds);
                       },
-                      // style: SettingsTextStyle.tile,
+                      child: TextButton(
+                        child: const Text(
+                          'TERMS OF USE',
+                          style: SettingsTextStyle.heavyTextStyle,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MyInAppWebView(
+                                  url: 'https://google.com/'),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                     SizedBox(height: size.height * 0.02),
-                    TextButton(
-                      child: Text('RATE APP'),
-                      onPressed: () {
-                        // Implement navigation logic
+                    ShaderMask(
+                      shaderCallback: (Rect bounds) {
+                        return const LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: <Color>[
+                            Colors.white,
+                            Color(0xFFEC9851),
+                          ],
+                        ).createShader(bounds);
                       },
-                      // style: SettingsTextStyle.tile,
+                      child: TextButton(
+                        child: const Text(
+                          'RATE APP',
+                          style: SettingsTextStyle.heavyTextStyle,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MyInAppWebView(
+                                  url: 'https://google.com/'),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../blocs/onboarding_cubit/onboarding_cubit.dart';
 import '../data/repository/onboarding_repo.dart';
+import '../views/app/view/splash.dart';
 import '../views/levels/view/first_level_screen.dart';
 import '../views/levels/view/second_level_screen.dart';
 import '../views/menu/view/menu_screen.dart';
@@ -20,6 +21,8 @@ abstract class AppRoutes {
   static const lvl2 = 'lvl2';
   static const lvl1 = 'lvl1';
   static const progress = 'progress';
+  static const splash = '/splash';
+  static const onboarding = 'onboarding';
 
   static MaterialPageRoute onGenerateRoute(RouteSettings settings) {
     final Widget child;
@@ -28,23 +31,31 @@ abstract class AppRoutes {
     OnboardingCubit onboardingCubit = OnboardingCubit(onboardingRepository);
 
     switch (settings.name) {
+      case onboarding:
+        child = BlocProvider(
+          create: (context) => onboardingCubit,
+          child: OnboardingScreen(),
+        );
       case home:
         child = const MenuScreen();
-
       case settingsScreen:
         child = const SettingsScreen();
       case result:
         child = const ResultScreen();
       case lvl1:
-        child = FirstLevelScreen();
+        child = const FirstLevelScreen();
       case lvl2:
-        child = SecondLevelScreen();
+        child = const SecondLevelScreen();
       case progress:
-        child = ProgressScreen();
+        child = const ProgressScreen();
       default:
         child = BlocProvider(
           create: (context) => onboardingCubit,
-          child: OnboardingScreen(),
+          child: SplashScreen(
+            onboardingRepository: onboardingRepository,
+            homeRoute: AppRoutes.home,
+            onboardingRoute: AppRoutes.onboarding,
+          ),
         );
     }
     return MaterialPageRoute(builder: (_) => child);
