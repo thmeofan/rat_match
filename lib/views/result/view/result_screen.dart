@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rat_match/data/repository/score_repo.dart';
+import 'package:rat_match/views/app/widgets/heart_widget.dart';
+import 'package:rat_match/views/app/widgets/score_widget.dart';
 import 'package:rat_match/views/app/widgets/start_button.dart';
+import 'package:rat_match/views/consts/app_text_style/menu_style.dart';
 
 import '../../../util/app_routes.dart';
 import '../../app/widgets/navigation_button.dart';
@@ -15,16 +18,14 @@ class ResultScreen extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
-          // Background image
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/background.png'),
                 fit: BoxFit.cover,
               ),
             ),
           ),
-          // Centered banner with chipmunk image aligned at the bottom
           Center(
             child: Stack(
               alignment: Alignment.center,
@@ -32,21 +33,21 @@ class ResultScreen extends StatelessWidget {
                 Container(
                   height: size.height * 0.8,
                   width: size.width * 0.6,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/banner.png'),
                       fit: BoxFit.contain,
                     ),
                   ),
                 ),
-                // Positioned chipmunk image on the border of the banner
+
                 Positioned(
-                  bottom: -(size.height * 0.1), // Half the image height
-                  right: -(size.width * 0.08), // Half the image width
+                  bottom: -(size.height * 0.1),
+                  right: -(size.width * 0.08),
                   child: Image.asset(
                     'assets/images/chipmunk.png',
                     height: size.height * 0.9,
-                    fit: BoxFit.contain, // Adjust the size accordingly
+                    fit: BoxFit.contain,
                   ),
                 ),
                 // Content inside the banner
@@ -54,12 +55,15 @@ class ResultScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('${ScoreRepository().score}'),
+                    Text(
+                      'YOUR SCORE\n IS: ${score.toString()}',
+                      style: MenuTextStyle.gradientTextStyle,
+                    ),
                   ],
                 ),
-                // Positioned NavigationButtons at the bottom of the banner
+
                 Positioned(
-                  bottom: 10, // Align to bottom edge of the banner
+                  bottom: 10,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -73,21 +77,12 @@ class ResultScreen extends StatelessWidget {
                         buttonWidth: size.width * 0.2,
                         buttonHeight: size.height * 0.3,
                       ),
-                      // StartButton(
-                      //   onTap: () {
-                      //     Navigator.of(context).pushNamed(
-                      //       AppRoutes.home,
-                      //     );
-                      //   },
-                      //   assetName: 'assets/images/buy.png',
-                      // )
                     ],
                   ),
                 ),
               ],
             ),
           ),
-          // Original NavigationButton positioned at the top left corner
           Positioned(
             top: size.height * 0.1,
             left: size.width * 0.025,
@@ -111,6 +106,16 @@ class ResultScreen extends StatelessWidget {
                   },
                   buttonWidth: size.width * 0.08,
                 ),
+              ],
+            ),
+          ),
+          Positioned(
+            top: size.height * 0.035,
+            right: -size.width * 0.025,
+            child: const Column(
+              children: [
+                ScoreWidget(),
+                HeartWidget(),
               ],
             ),
           ),

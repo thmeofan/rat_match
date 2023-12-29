@@ -10,12 +10,9 @@ class NavigationButton extends StatelessWidget {
   final String assetName;
   final Function() onTap;
   final double buttonWidth;
+
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-
-    //final buttonHeight = screenWidth * 0.08;
-
     return Material(
       color: Colors.transparent,
       child: InkWell(

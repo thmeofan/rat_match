@@ -1,15 +1,15 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:rat_match/data/repository/score_repo.dart';
 
 import '../../../util/app_routes.dart';
 import '../../app/widgets/navigation_button.dart';
+import '../../app/widgets/score_widget.dart';
 import '../../app/widgets/start_button.dart';
 import '../widget/level_button.dart';
-import '../widget/level_indicator_widget.dart';
-import '../widget/line_painter.dart';
 
 class ProgressScreen extends StatefulWidget {
+  const ProgressScreen({super.key});
+
   @override
   _ProgressScreenState createState() => _ProgressScreenState();
 }
@@ -17,38 +17,6 @@ class ProgressScreen extends StatefulWidget {
 class _ProgressScreenState extends State<ProgressScreen> {
   final int numberOfLevels = 5;
   int selectedLevelIndex = 0;
-  final List<GlobalKey> buttonKeys = List.generate(5, (index) => GlobalKey());
-  List<Offset> buttonPositions = [];
-  @override
-  void initState() {
-    super.initState();
-
-    // WidgetsBinding.instance
-    //     .addPostFrameCallback((_) => _calculateButtonPositions());
-  }
-
-  // void _calculateButtonPositions() {
-  //   final double screenWidth = MediaQuery.of(context).size.width;
-  //   final double screenHeight = MediaQuery.of(context).size.height;
-  //   final double buttonWidth =
-  //       screenWidth * 0.1; // Assuming button width is 10% of screen width
-  //
-  //   // Hard-coded Y-Axis percentages to place the buttons vertically.
-  //   final List<double> buttonYPositions = [
-  //     0.1, // Level 1
-  //     0.3, // Level 2
-  //     0.5, // Level 3
-  //     0.7, // Level 4
-  //     0.9, // Level 5
-  //   ];
-  //
-  //   buttonPositions = buttonYPositions
-  //       .map((yPos) =>
-  //           Offset(screenWidth / 2 - buttonWidth / 2, screenHeight * yPos))
-  //       .toList();
-  //
-  //   setState(() {}); // Trigger a rebuild to paint the buttons and lines
-  // }
 
   void _onPrevious() {
     setState(() {
@@ -64,120 +32,265 @@ class _ProgressScreenState extends State<ProgressScreen> {
   }
 
   void _onStartLevel() {
-    Navigator.of(context).pushNamed('lvl$selectedLevelIndex');
+    switch (selectedLevelIndex) {
+      case 0:
+        if (life >= 1) {
+          Navigator.of(context).pushNamed(AppRoutes.lvl1);
+          score -= 50;
+          life -= 1;
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                'Sorry, you\'re out of lives',
+                style: TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Color(0xFFEAAD82),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              margin: EdgeInsets.symmetric(horizontal: 150),
+              behavior: SnackBarBehavior.floating,
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
+        break;
+
+      case 1:
+        if (life >= 1) {
+          Navigator.of(context).pushNamed(AppRoutes.lvl2);
+          score -= 50;
+          life -= 1;
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                'Sorry, you\'re out of lives',
+                style: TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Color(0xFFEAAD82),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              margin: EdgeInsets.symmetric(horizontal: 200),
+              behavior: SnackBarBehavior.floating,
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
+        break;
+      case 2:
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'This level isn\'t unlocked yet',
+              style: TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Color(0xFFEAAD82),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+            margin: EdgeInsets.symmetric(horizontal: 200),
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 2),
+          ),
+        );
+        break;
+      case 3:
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'This level isn\'t unlocked yet',
+              style: TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Color(0xFFEAAD82),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+            margin: EdgeInsets.symmetric(horizontal: 200),
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 2),
+          ),
+        );
+        break;
+      case 4:
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'This level isn\'t unlocked yet',
+              style: TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Color(0xFFEAAD82),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+            margin: EdgeInsets.symmetric(horizontal: 200),
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 2),
+          ),
+        );
+        break;
+      default:
+        Navigator.of(context).pushNamed(AppRoutes.lvl1);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    final List<Offset> buttonPositions = [
-      Offset(0.2, 0.1), // Level 1
-      Offset(0.4, 0.3), // Level 2
-      Offset(0.6, 0.5), // Level 3
-      Offset(0.8, 0.2), // Level 4
-      Offset(1.0, 0.4), // Level 5
-    ]
-        .map((offset) => Offset(
-              offset.dx * MediaQuery.of(context).size.width,
-              offset.dy * MediaQuery.of(context).size.height,
-            ))
-        .toList();
-    final List<Function()> onTapActions = [
-      () {
-        Navigator.of(context).pushNamed(
-          AppRoutes.lvl1,
-        );
-      }, // Replace with your actual onTap actions
-      () {
-        Navigator.of(context).pushNamed(
-          AppRoutes.lvl2,
-        );
-      },
-      () => print('Level 3 tapped'),
-      () => print('Level 4 tapped'),
-      () => print('Level 5 tapped'),
-    ];
-    // Place your buttons with the assigned keys and random top offsets...
-    // For example:
-    final buttonWidth = MediaQuery.of(context).size.width * 0.1;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             image: DecorationImage(
           image: AssetImage('assets/images/background.png'),
           fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(
-            Colors.transparent.withOpacity(1),
-            BlendMode.dstATop,
-          ),
         )),
-        child: Column(
-          children: [
-            Stack(
+        child: Stack(children: [
+          Padding(
+            padding: EdgeInsets.only(
+              top: screenHeight * 0.02,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                if (buttonPositions.length == numberOfLevels)
-                  CustomPaint(
-                    size: Size.infinite,
-                    // Pass the buttonPositions to the painter
-                    painter: LinePainter(
-                      buttonPositions,
-                    ),
+                const Spacer(),
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: screenHeight * 0.2,
                   ),
-                ...List.generate(numberOfLevels, (index) {
-                  return Positioned.fill(
-                    left: index *
-                        MediaQuery.of(context).size.height *
-                        0.4, // Horizontal spacing
-                    top: Random().nextDouble() *
-                        MediaQuery.of(context).size.height *
-                        0.6,
-                    child: LevelButton(
-                      assetName: 'assets/images/lvl${index + 1}.png',
-                      onTap: onTapActions[index],
-                      buttonKey: buttonKeys[index], // Use the key here
-                    ),
-                  );
-                }),
-                SizedBox(
-                  height: size.height * 0.3,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      NavigationButton(
-                        assetName: 'assets/images/previous.png',
-                        onTap: () {
-                          _onPrevious();
-                        },
-                        buttonWidth: size.width * 0.1,
-                      ),
                       SizedBox(
-                        width: size.width * 0.02,
-                      ),
-                      StartButton(
-                        buttonWidth: size.width * 0.2,
-                        buttonHeight: size.height * 0.3,
-                        assetName: 'assets/images/start.png',
+                          height: screenWidth * 0.15,
+                          width: screenWidth * 0.15),
+                      LevelButton(
+                        assetName: 'assets/images/lvl2.svg',
+                        isSelected: selectedLevelIndex == 1,
                         onTap: () {
+                          setState(() {
+                            selectedLevelIndex = 1;
+                          });
                           _onStartLevel();
                         },
                       ),
                       SizedBox(
-                        width: size.width * 0.02,
-                      ),
-                      NavigationButton(
-                        assetName: 'assets/images/next.png',
+                          height: screenWidth * 0.15,
+                          width: screenWidth * 0.15),
+                      LevelButton(
+                        assetName: 'assets/images/lvl4.svg',
+                        isSelected: selectedLevelIndex == 3,
                         onTap: () {
-                          _onNext();
+                          setState(() {
+                            selectedLevelIndex = 3;
+                          });
+                          _onStartLevel();
                         },
-                        buttonWidth: size.width * 0.1,
                       ),
                     ],
                   ),
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    LevelButton(
+                      assetName: 'assets/images/lvl1.svg',
+                      isSelected: selectedLevelIndex == 0,
+                      onTap: () {
+                        setState(() {
+                          selectedLevelIndex = 0;
+                        });
+                        _onStartLevel();
+                      },
+                    ),
+                    SizedBox(
+                        height: screenWidth * 0.15, width: screenWidth * 0.2),
+                    LevelButton(
+                      assetName: 'assets/images/lvl3.svg',
+                      isSelected: selectedLevelIndex == 2,
+                      onTap: () {
+                        setState(() {
+                          selectedLevelIndex = 2;
+                        });
+                        _onStartLevel();
+                      },
+                    ),
+                    SizedBox(
+                        height: screenWidth * 0.15, width: screenWidth * 0.15),
+                    LevelButton(
+                      assetName: 'assets/images/lvl5.svg',
+                      isSelected: selectedLevelIndex == 4,
+                      onTap: () {
+                        setState(() {
+                          selectedLevelIndex = 4;
+                        });
+                        _onStartLevel();
+                      },
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    NavigationButton(
+                      assetName: 'assets/images/previous.png',
+                      onTap: () {
+                        _onPrevious();
+                      },
+                      buttonWidth: screenWidth * 0.1,
+                    ),
+                    SizedBox(
+                      width: screenWidth * 0.02,
+                    ),
+                    StartButton(
+                      buttonWidth: screenWidth * 0.2,
+                      buttonHeight: screenHeight * 0.3,
+                      assetName: 'assets/images/start.png',
+                      onTap: () {
+                        _onStartLevel();
+                      },
+                    ),
+                    SizedBox(
+                      width: screenWidth * 0.02,
+                    ),
+                    NavigationButton(
+                      assetName: 'assets/images/next.png',
+                      onTap: () {
+                        _onNext();
+                      },
+                      buttonWidth: screenWidth * 0.1,
+                    ),
+                  ],
+                ),
               ],
             ),
-          ],
-        ),
+          ),
+          Positioned(
+            top: screenHeight * 0.1,
+            left: screenWidth * 0.025,
+            child: NavigationButton(
+              assetName: 'assets/images/home.png',
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  AppRoutes.home,
+                );
+              },
+              buttonWidth: screenWidth * 0.08,
+            ),
+          ),
+          Positioned(
+            top: screenHeight * 0.035,
+            right: -screenWidth * 0.025,
+            child: const Column(
+              children: [
+                ScoreWidget(),
+                //   HeartWidget(),
+              ],
+            ),
+          ),
+        ]),
       ),
     );
   }

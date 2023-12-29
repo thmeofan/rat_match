@@ -26,7 +26,7 @@ class OnboardingScreen extends StatelessWidget {
           children: [
             Padding(
               padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.04),
+                  top: MediaQuery.of(context).size.height * 0.01),
               child: Image.asset('assets/images/chipmunk.png'),
             ),
             Column(
@@ -35,9 +35,10 @@ class OnboardingScreen extends StatelessWidget {
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.15,
                       bottom: MediaQuery.of(context).size.height * 0.05),
-                  child: SpeechBubble(
-                    text1: '',
-                    text2: '',
+                  child: const SpeechBubble(
+                    text1: 'Mouse King',
+                    text2:
+                        'Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis.',
                   ),
                 ),
                 StartGameButton(

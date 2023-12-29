@@ -12,13 +12,9 @@ class StartButton extends StatelessWidget {
   final String assetName;
   final double buttonWidth;
   final double buttonHeight;
+
   @override
   Widget build(BuildContext context) {
-    // final screenWidth = MediaQuery.of(context).size.width;
-    // final screenHeight = MediaQuery.of(context).size.height;
-    // final buttonWidth = screenWidth * 0.16; // 20% of the screen width
-    // = screenHeight * 0.25; // 25% of the screen height
-
     return Material(
       color: Colors.transparent,
       child: InkWell(

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rat_match/views/app/widgets/navigation_button.dart';
 import 'package:rat_match/views/app/widgets/start_button.dart';
+import 'package:rat_match/views/consts/app_text_style/menu_style.dart';
 
 import '../../../util/app_routes.dart';
+import '../../app/widgets/heart_widget.dart';
+import '../../app/widgets/score_widget.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
@@ -18,26 +22,26 @@ class _MenuScreenState extends State {
 
   void _onPrevious() {
     if (_currentPage == 0) {
-      _currentPage = _numPages - 1; // Wrap to last page
+      _currentPage = _numPages - 1;
     } else {
       _currentPage--;
     }
     _pageController.animateToPage(
       _currentPage,
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );
   }
 
   void _onNext() {
     if (_currentPage == _numPages - 1) {
-      _currentPage = 0; // Wrap to first page
+      _currentPage = 0;
     } else {
       _currentPage++;
     }
     _pageController.animateToPage(
       _currentPage,
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );
   }
@@ -49,7 +53,7 @@ class _MenuScreenState extends State {
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-          image: AssetImage('assets/images/background.png'),
+          image: const AssetImage('assets/images/background.png'),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
             Colors.transparent.withOpacity(1),
@@ -57,20 +61,22 @@ class _MenuScreenState extends State {
           ),
         )),
         child: Stack(children: [
-          Expanded(
-            child: PageView(
-              controller: _pageController,
-              onPageChanged: (int page) {
-                setState(() {
-                  _currentPage = page;
-                });
-              },
-              children: [
-                buildPage(size, 'assets/images/star_one.png', 'SIMPLE LEVEL'),
-                buildPage(size, 'assets/images/star_three.png', 'MIDDLE LEVEL'),
-                buildPage(size, 'assets/images/star_two.png', 'ADVANCED LEVEL'),
-              ],
-            ),
+          PageView(
+            controller: _pageController,
+            onPageChanged: (int page) {
+              setState(() {
+                _currentPage = page;
+              });
+            },
+            children: [
+              buildPage(
+                size,
+                'assets/images/star1.svg',
+                'SIMPLE LEVEL',
+              ),
+              buildPage(size, 'assets/images/star2.svg', 'MIDDLE LEVEL'),
+              buildPage(size, 'assets/images/star3.svg', 'ADVANCED LEVEL'),
+            ],
           ),
           Positioned(
             bottom: size.height * 0.025,
@@ -119,15 +125,6 @@ class _MenuScreenState extends State {
             child: Row(
               children: [
                 NavigationButton(
-                  assetName: 'assets/images/home.png',
-                  onTap: () {
-                    Navigator.of(context).pushNamed(
-                      AppRoutes.home,
-                    );
-                  },
-                  buttonWidth: size.width * 0.08,
-                ),
-                NavigationButton(
                   assetName: 'assets/images/settings.png',
                   onTap: () {
                     Navigator.of(context).pushNamed(
@@ -136,6 +133,16 @@ class _MenuScreenState extends State {
                   },
                   buttonWidth: size.width * 0.08,
                 ),
+              ],
+            ),
+          ),
+          Positioned(
+            top: size.height * 0.035,
+            right: -size.width * 0.025,
+            child: const Column(
+              children: [
+                ScoreWidget(),
+                HeartWidget(),
               ],
             ),
           ),
@@ -148,9 +155,9 @@ class _MenuScreenState extends State {
 Widget buildPage(Size size, String starImage, String levelText) {
   return Center(
     child: SizedBox(
-      width: size.width * 0.65,
+      width: size.width * 0.7,
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/lvl_banner.png'),
             fit: BoxFit.contain,
@@ -159,19 +166,10 @@ Widget buildPage(Size size, String starImage, String levelText) {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(starImage),
-            SizedBox(
-                height:
-                    size.height * 0.01), // Space between the star and the text
-            Text(
-              levelText,
-              style: TextStyle(
-                // Define the text style as needed
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
+            SvgPicture.asset(starImage),
+            //  Image.asset(starImage),
+            SizedBox(height: size.height * 0.05),
+            Text(levelText, style: MenuTextStyle.gradientTextStyle),
           ],
         ),
       ),
