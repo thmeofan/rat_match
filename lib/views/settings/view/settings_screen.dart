@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rat_match/views/app/widgets/navigation_button.dart';
+import 'package:rat_match/views/consts/app_colors.dart';
 import 'package:rat_match/views/consts/app_text_style/settings_style.dart';
 
 import '../../../util/app_routes.dart';
@@ -126,7 +127,8 @@ class SettingsScreen extends StatelessWidget {
                           end: Alignment.bottomCenter,
                           colors: <Color>[
                             Colors.white,
-                            Color(0xFFEC9851),
+                            AppColors.brownColor,
+                            //   Color(0xFFEC9851),
                           ],
                         ).createShader(bounds);
                       },
