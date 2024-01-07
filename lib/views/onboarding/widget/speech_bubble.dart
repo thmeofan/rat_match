@@ -17,8 +17,8 @@ class SpeechBubble extends StatelessWidget {
         alignment: Alignment.topCenter,
         child: SizedBox(
           // color: Colors.red,
-          height: MediaQuery.of(context).size.height * 0.5,
-          width: MediaQuery.of(context).size.width * 0.5,
+          height: MediaQuery.of(context).size.height * 0.45,
+          width: MediaQuery.of(context).size.width * 0.4,
           child: Bubble(
             color: Colors.black.withOpacity(0.4),
             nip: BubbleNip.leftBottom,

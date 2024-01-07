@@ -75,14 +75,18 @@ class _SecondLevelScreenState extends State<SecondLevelScreen> {
               )),
               child: Center(
                 child: Padding(
-                  padding: EdgeInsets.all(size.width * 0.07),
+                  padding: EdgeInsets.only(
+                    top: size.height * 0.25,
+                    bottom: size.height * 0.1,
+                    left: size.width * 0.025,
+                    right: size.width * 0.025,
+                  ),
                   child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
-                      childAspectRatio: 1,
-                      crossAxisSpacing: size.width *
-                          0.06, // Spacing between cards horizontally
-                      mainAxisSpacing: size.width * 0.02,
+                      childAspectRatio: 2,
+                      crossAxisSpacing: size.width * 0.001,
+                      mainAxisSpacing: size.width * 0.005,
                     ),
                     itemCount: _gameIcons.length,
                     itemBuilder: (context, index) {
