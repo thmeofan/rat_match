@@ -63,44 +63,38 @@ class _SecondLevelScreenState extends State<SecondLevelScreen> {
           ),
         )),
         child: Stack(children: [
-          Padding(
-            padding: EdgeInsets.all(size.height * 0.05),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Container(
-                    height: size.height * 0.9,
-                    width: size.width * 0.6,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                      image: AssetImage('assets/images/banner.png'),
-                      fit: BoxFit.contain,
-                    )),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: size.height * 0.22,
-                        vertical: size.height * 0.15,
-                      ),
-                      child: GridView.builder(
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          childAspectRatio: 1,
-                        ),
-                        itemCount: _gameIcons.length,
-                        itemBuilder: (context, index) {
-                          return CustomCard(
-                            iconName: _gameIcons[index],
-                            isFlipped: _cardFlipped[index],
-                            onTap: () => _onCardClick(index),
-                          );
-                        },
-                      ),
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              height: size.height * 0.9,
+              width: size.width * 0.6,
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                image: AssetImage('assets/images/banner.png'),
+                fit: BoxFit.contain,
+              )),
+              child: Center(
+                child: Padding(
+                  padding: EdgeInsets.all(size.width * 0.07),
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      childAspectRatio: 1,
+                      crossAxisSpacing: size.width *
+                          0.06, // Spacing between cards horizontally
+                      mainAxisSpacing: size.width * 0.02,
                     ),
+                    itemCount: _gameIcons.length,
+                    itemBuilder: (context, index) {
+                      return CustomCard(
+                        iconName: _gameIcons[index],
+                        isFlipped: _cardFlipped[index],
+                        onTap: () => _onCardClick(index),
+                      );
+                    },
                   ),
                 ),
-              ],
+              ),
             ),
           ),
           Positioned(
