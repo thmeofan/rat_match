@@ -76,7 +76,7 @@ class _FirstLevelScreenState extends State<FirstLevelScreen> {
               child: Center(
                 child: Padding(
                   padding: EdgeInsets.only(
-                    top: size.height * 0.21,
+                    top: size.height * 0.23,
                     bottom: size.height * 0.1,
                     left: size.width * 0.02,
                     right: size.width * 0.02,
@@ -85,8 +85,8 @@ class _FirstLevelScreenState extends State<FirstLevelScreen> {
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 2.3,
-                      crossAxisSpacing: size.width * 0.025,
-                      mainAxisSpacing: size.width * 0.005,
+                      crossAxisSpacing: size.width * 0.026,
+                      mainAxisSpacing: size.width * 0.006,
                     ),
                     itemCount: _gameIcons.length,
                     itemBuilder: (context, index) {
